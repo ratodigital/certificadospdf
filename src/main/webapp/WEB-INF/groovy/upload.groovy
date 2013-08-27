@@ -3,7 +3,7 @@ import util.*
 import com.google.appengine.api.blobstore.BlobKey 
 import com.google.appengine.api.blobstore.BlobInfo
 import com.google.appengine.api.files.FileReadChannel
-import java.nio.channels.Channels
+//import java.nio.channels.Channels
 
 def blobs = blobstore.getUploadedBlobs(request)
 
@@ -31,13 +31,21 @@ println "CSVDATA=$csvData<br/>"
 
 //PDF
 def pdfFile = blobs["pdfFile"]
-pdfFile.withStream { inputStream -> 
-  def pdf = new PDF()
-  pdf.open(inputStream) 
-  csvData.each { data ->
-    println "DATA=$data<br/>"  
-    def outputPdfName = "${pdfFile.filename}"
-    def pdfStamper = files.createNewBlobFile("application/pdf", outputPdfName)
+//def pdfStamper 
+
+
+//csvData.each { data ->
+for (data in csvData) {
+	String outputPdfName
+	byte[] outputPdfBytes
+	def pdfStamper
+  pdfFile.withStream { inputStream -> 
+  	def pdf = new PDF()
+	  pdf.open(inputStream) 
+    log.info "***DATA=$data<br/>"  
+  
+    outputPdfName = "${data['email']}_${pdfFile.filename}"
+    pdfStamper = files.createNewBlobFile("application/pdf", outputPdfName)
     pdfStamper.withOutputStream(locked: true, finalize: true) { outputStream ->
       pdf.preparePdfStamper(outputStream)
       pdf.listFormFields().each { fieldName ->
@@ -45,36 +53,37 @@ pdfFile.withStream { inputStream ->
         println "mudando campo $fieldName para ${data[fieldName]}<br/>"
       }
       pdf.closeAll()
-    }
-
-    FileReadChannel ch = files.openReadChannel(pdfStamper, true);
-    byte[] pdfBytes = getBytes(Channels.newInputStream(ch))
-
-    println "enviando $outputPdfName email para ${data['email']}"
-    mail.send from: "serge@ratodigital.com",
-    to: ${data['email']},
-    subject: "Seu certificado está pronto!",
-    textBody: "Pegaí seu certificado! -- Rato Digital",
-    attachment: [data: pdfBytes, fileName: "$outputPdfName"]    
+		}
+	}
+		BlobInfo inf = pdfStamper.blobKey.info
+		outputPdfBytes = blobstore.fetchData(pdfStamper.blobKey, 0, inf.size	- 1) 
+			
+    println "enviando $outputPdfName email para ${data['email']}"	    
+    //sendMails(outputPdfBytes, outputPdfName)
+    Mail.send("serge@ratodigital.com","serge",data['email'],data['email'],"seu certificado esta pronto","Pegai em anexo",outputPdfName,outputPdfBytes)
     /*
-    BlobInfo inf = pdfStamper.blobKey.info
     response.setHeader("Content-Type", "application/pdf");
     response.setHeader("Content-Length", String.valueOf(inf.size));
     response.setHeader("Content-Disposition", "attachment;filename=\"$outputPdfName\"");
-    blobstore.serve(pdfStamper.blobKey, response)
-    */
-  }
+    blobstore.serve(pdfStamper.blobKey, response)	    
+	  */
+	/*
+
+*/
+	//pdf.closePdf()	
+	pdfStamper.delete()
+}
+pdfFile.delete()
+csvFile.delete()
+
+def sendMaild(a,f) {
+	println "mail sent"
 }
 
-def byte[] getBytes(InputStream is) throws IOException {
-    ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-
-    int len;
-    byte[] data = new byte[100000]; // adapt buffer size to your needs
-    while ((len = is.read(data, 0, data.length)) != -1) {
-        buffer.write(data, 0, len);
-    }
-
-    buffer.flush();
-    return buffer.toByteArray();
-}
+def sendMail(attach, fileName) {
+	mail.send (from: "serge@ratodigital.com",
+		to: ${data['email']},
+		subject: "Seu certificado está pronto!",
+		textBody: "Pegaí seu certificado! -- Rato Digital",
+		attachment: [data: attach, fileName: "$fileName"])
+}	

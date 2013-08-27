@@ -50,6 +50,14 @@ class PDF {
 		}        
 	}
 
+	def closePdf() {
+    pdf.close();			
+	}
+	
+	def closePdfStamper() {
+		pdfStamper.close()
+	}
+		
 	def closeAll() {
 		pdfStamper.close()
     pdf.close();			

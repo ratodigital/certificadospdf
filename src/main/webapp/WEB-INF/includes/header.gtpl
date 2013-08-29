@@ -1,41 +1,87 @@
-<!doctype html>
 <html>
-<head>
-  <title>Gaelyk</title>
-  <link rel="shortcut icon" href="/images/gaelyk-small-favicon.png" type="image/png">
-  <link rel="icon" href="/images/gaelyk-small-favicon.png" type="image/png">
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap-responsive.min.css" />
-  <script type="text/javascript" src="/js/jquery-1.7.2.min.js">
-  </script>
-  <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-  <style type="text/css">
-      body {
-          padding-top: 60px;
-      }
-      
-      .center {
-        text-align: center;
-      }
-  </style>
-</head>
-<body>
-   <div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<a class="btn btn-navbar" data-toggle="collapse"
-				data-target=".nav-collapse"> <span class="icon-bar"></span> <span
-				class="icon-bar"></span> <span class="icon-bar"></span>
-			</a> <a class="brand" href="/"><img src="/images/gaelyk-logo.png"/></a>
-			<div class="nav-collapse">
-				<ul class="nav">
-					<li class="${request.servletPath == '/WEB-INF/pages/index.gtpl' ? 'active' : ''}"><a href="/">Home</a></li>
-					<li class="${request.servletPath == '/WEB-INF/pages/datetime.gtpl' ? 'active' : ''}"><a href="/datetime">Current Time</a></li>
-				</ul>
-			</div>
-			<!--/.nav-collapse -->
-		</div>
-	</div>
-	</div>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<meta name="keywords" content="certificado, pdf, mala direta, envio, email, template, libreoffice, csv" />
+		<meta name="description" content="<%if (!params.title) {%>Certificados PDF<%} else {%>Certificados PDF - $params.title<%}%>" />
+		<meta name="author" content="Serge Rehem" />
+		<meta name="robots" content="follow, index" />		
+    <link rel="shortcut icon" href="/favicon.ico">
 
-    <div class="container">
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template 
+    <link href="/css/jumbotron.css" rel="stylesheet">
+-->
+    <!-- Custom styles for this template 
+    <link href="/css/bootstrap-fileupload.min.css" rel="stylesheet">
+    -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="/js/html5shiv.js"></script>
+      <script src="/js/respond.min.js"></script>
+    <![endif]-->
+	
+<style>
+		.btn-file {
+		    position: relative;
+		    overflow: hidden;
+		}
+		.btn-file input[type=file] {
+		    position: absolute;
+		    top: 0;
+		    right: 0;
+		    min-width: 100%;
+		    min-height: 100%;
+		    font-size: 999px;
+		    text-align: right;
+		    filter: alpha(opacity=0);
+		    opacity: 0;
+		    background: red;
+		    cursor: inherit;
+		    display: block;
+		}
+		input[readonly] {
+			background-color: white !important;
+			cursor: text !important;
+		}
+	</style>
+	
+
+  </head>
+
+  <body>
+  <!--
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Certificados PDF</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#about">FAQ</a></li>
+            <li><a href="#contact">Contato</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <div class="form-group">
+              <input type="text" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="password" placeholder="Password" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-success">Sign in</button>
+          </form>
+        </div>
+      </div>
+    </div>
+-->
+
+
+
+

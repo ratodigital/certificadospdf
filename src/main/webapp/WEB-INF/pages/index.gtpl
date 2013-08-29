@@ -1,31 +1,120 @@
-<% include '/WEB-INF/includes/header.gtpl' %>
-<div class="hero-unit center">
-    <a href="http://gaelyk.appspot.com"><img alt="Gaelyk Logo" src="/images/gaelyk.png"/></a>
-	<br/>
-	<p>
-	    Congratulations, you've just created your first 
-	    <a href="http://gaelyk.appspot.com">Gaelyk</a> application.
-	</p>
+<% include '/WEB-INF/includes/header.gtpl'%>
+
+	<!-- Main jumbotron for a primary marketing message or call to action -->
+	<div class="jumbotron">
+	  <div class="container">
+	    <h1>Certificados PDF <small>Beta</small></h1>
+	    <p>A maneira mais fácil e rápida de enviar certificados de participação em cursos e eventos por e-mail. Com apenas 3 passos todos os participantes recebem um email padrão com o certificado anexado em formato PDF.</p>
+	    <p class="text-center"><a href="/upload" class="btn btn-success btn-lg">Enviar certificados</a></p>
+	  </div>
+	</div>
 	
-	<p>
-	    <a href="/datetime" class="btn btn-primary btn-large">Show current time &raquo;</a>
-	</p>
-</div>
-<div class="row">
-  <div class="span4">
-    <h2>Start Experimenting</h2>
-     <p>This template contains following sample files<ul><li><code>datetime.groovy</code></li><li><code>WEB-INF/pages/datetime.gtpl</code></li></ul>Try to edit them and watch the changes.</p>
-  </div>
-  <div class="span4">
-    <h2>Learn More</h2>
-     <p>All <a href="http://gaelyk.appspot.com">Gaelyk</a> features are well documented. If you are new to <a href="http://gaelyk.appspot.com">Gaelyk</a> best place to learn more is the <a href="http://gaelyk.appspot.com/tutorial">Tutorial</a>.</p>
-    <p><a class="btn" href="http://gaelyk.appspot.com/tutorial">Read Tutorial &raquo;</a></p>
- </div>
-  <div class="span4">
-    <h2>Work Less</h2>
-    <p>Take advantage of existing plugins. You can for example unleash the power of <a href="http://developer.google.com/appengine/">Google App Engine</a> using <a href="https://github.com/musketyr/gpars-appengine">GPars App Engine</a> integration library</p>
-    <p><a class="btn" href="http://gaelyk.appspot.com/plugins">More about plugins &raquo;</a></p>
-  </div>
-</div>
+	<div class="container">
+		<!-- Example row of columns -->
+		<div class="row">
+			<div class="col-lg-4">
+  			<img src="/images/pdf.png" width="128px" height="128px" alt="PDF">
+			  <h2>1. Template PDF</h2>
+			  <p>Crie e faça upload do PDF contendo o modelo do certificado. Usando o LibreOffice Writer, use o desenhador de formulários para criar campos de texto somente leitura. Exporte para PDF e faça o upload.</p>
+			  <p><a data-toggle="modal" href="#pdf" class="btn btn-primary">Saiba mais &raquo;</a></p>
+			</div>
+			<div class="col-lg-4">
+  			<img src="/images/csv.png" width="128px" height="128px" alt="CSV">
+			  <h2>2. Dados CSV</h2>
+			  <p>Os dados do evento/participante (nome, e-mail, data, carga horária, curso, etc) devem ser informados em um arquivo texto separado por virgulas (formato CSV). A primeira linha contem o nome dos campos.</p>
+			  <p><a class="btn btn-primary" href="#">Saiba mais &raquo;</a></p>
+			</div>
+			<div class="col-lg-4">
+        <img src="/images/email.png" width="128px" height="128px" alt="Email">
+			  <h2>3. Enviar Email</h2>
+			  <p>Configure o nome do remetente, o assunto e o texto da mensagem a ser encaminhada a cada participante. Você também poderá ver uma prévia de como ficará o certificado pronto.</p>
+			  <p><a class="btn btn-primary" href="#">Saiba mais &raquo;</a></p>
+			</div>
+	</div>
+	
+  <!-- sample modal content -->
+  <div id="pdf" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Template PDF</h4>
+        </div>
+        <div class="modal-body">
+<!--
+          <h4>Text in a modal</h4>
+          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+
+          <h4>Popover in a modal</h4>
+          <p>This <a href="#" role="button" class="btn btn-default popover-test" title="A Title" data-content="And here's some amazing content. It's very engaging. right?">button</a> should trigger a popover on click.</p>
+
+          <h4>Tooltips in a modal</h4>
+          <p><a href="#" class="tooltip-test" title="Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip">that link</a> should have tooltips on hover.</p>
+
+          <hr>
+-->
+					<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+						<iframe width="480" height="360" src="//www.youtube.com/embed/0dCuRrNmUI8" frameborder="0" allowfullscreen></iframe>
+					</div>
+          <h4>Criando seu template de certificado em PDF</h4>	
+          <p>Você pode usar qualquer ferramenta para criação de PDF. Com o <a href="http://pt-br.libreoffice.org/libreoffice/writer/">LibreOffice Writer</a> é simples e gratuito!</p>
+          <p>Crie um novo documento texto. Escolha <b>Formatar/Página</b> e configure a orientação <b>Paisagem</b>, que é o mais comum.</p>
+          <p>Se você tiver uma imagem de fundo, adicione-a (menu <b>Inserir/Figura/De um arquivo</b>) na página, clique com o botão
+          direito e escolha o menu <b>Quebra automática/No plano de fundo</b>. Posicione a imagem no lugar adequado.</p>
+          <p>As informações estáticas podem ser desenhadas como texto normal ou como campos texto das ferramenta de desenho
+          ou designer de formulários. As duas últimas alternativas são melhores, pois tem-se maior controle sobre a posição dos textos.</p>
+          <p>Para criar os campos, selecione a opção <b>Design de formulários</b> do menu <b>Exibir/Barra de ferramentas</b>.</p>
+          <p>Ative o <i>modo de design</i>. Inclua <i>Campos de rótulo</i> para informações fixas. Nas propriedades, escolha tamanho e tipo de fonte.</p>
+          <p>Para campos variáveis utilize <i>Caixas de texto</i>. Defina o tipo de Borda e marque <b>Sim</b> na propriedade <i>Somente leitura</i>.
+          Escolha a propridade <i>Ancorar</i> com o valor <b>Na página</b>, para facilitar o posicionamento do campo em qualquer lugar do certificado.</p>
+          <p>Salve seu arquivo, para eventuais modificações futuras e, exporte para PDF (menu <b>Arquivo/Exportar como PDF</b>). Mantenha
+          as opções padrões e seu template PDF está pronto!</p>
+          <p>Se desejar, baixe este <a href="#" class="tooltip-test" title="Exemplos">ZIP com alguns exemplos</a>.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+	
+  <!-- sample modal content -->
+  <div id="csv" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Template PDF</h4>
+        </div>
+        <div class="modal-body">
+
+					<div class="flex-video widescreen" style="margin: 0 auto;text-align:center;">
+						<iframe width="360" height="270" src="//www.youtube.com/embed/0dCuRrNmUI8" frameborder="0" allowfullscreen></iframe>
+					<div>
+          <h4>Criando seu template de certificado em PDF</h4>	
+          <p>Você pode usar qualquer ferramenta para criação de PDF. Com o <a href="http://pt-br.libreoffice.org/libreoffice/writer/">LibreOffice Writer</a> é simples e gratuito!</p>
+          <p>Crie um novo documento texto. Escolha <b>Formatar/Página</b> e configure a orientação <b>Paisagem</b>, que é o mais comum.</p>
+          <p>Se você tiver uma imagem de fundo, adicione-a (menu <b>Inserir/Figura/De um arquivo</b>) na página, clique com o botão
+          direito e escolha o menu <b>Quebra automática/No plano de fundo</b>. Posicione a imagem no lugar adequado.</p>
+          <p>As informações estáticas podem ser desenhadas como texto normal ou como campos texto das ferramenta de desenho
+          ou designer de formulários. As duas últimas alternativas são melhores, pois tem-se maior controle sobre a posição dos textos.</p>
+          <p>Para criar os campos, selecione a opção <b>Design de formulários</b> do menu <b>Exibir/Barra de ferramentas</b>.</p>
+          <p>Ative o <i>modo de design</i>. Inclua <i>Campos de rótulo</i> para informações fixas. Nas propriedades, escolha tamanho e tipo de fonte.</p>
+          <p>Para campos variáveis utilize <i>Caixas de texto</i>. Defina o tipo de Borda e marque <b>Sim</b> na propriedade <i>Somente leitura</i>.
+          Escolha a propridade <i>Ancorar</i> com o valor <b>Na página</b>, para facilitar o posicionamento do campo em qualquer lugar do certificado.</p>
+          <p>Salve seu arquivo, para eventuais modificações futuras e, exporte para PDF (menu <b>Arquivo/Exportar como PDF</b>). Mantenha
+          as opções padrões e seu template PDF está pronto!</p>
+          <p>Se desejar, baixe este <a href="#" class="tooltip-test" title="Exemplos">ZIP com alguns exemplos</a>.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+        </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->	
 <% include '/WEB-INF/includes/footer.gtpl' %>
 

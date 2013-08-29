@@ -45,7 +45,7 @@ public class Mail {
             Transport.send(msg);
  
         } catch (Exception e) {
-            e.printnStackTrace()1
+            e.printStackTrace()
         }
     }
 }

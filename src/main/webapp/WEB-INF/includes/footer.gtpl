@@ -10,32 +10,19 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/js/jquery-1.7.2.min.js"></script>
+
     <script src="/js/bootstrap.min.js"></script>
-	  <script>
-		  (jQuery)(document)
-			  .on('change', '.btn-file :file', function() {
-				  var input = (jQuery)(this),
-				  numFiles = input.get(0).files ? input.get(0).files.length : 1,
-				  label = input.val();//.replace(/\\/g, '/').replace(/.*/\\/, '');
-				  input.trigger('fileselect', [numFiles, label]);
-		  });
+		<script>
 		
-		  (jQuery)(document).ready( function() {
-			  (jQuery)('.btn-file :file').on('fileselect', function(event, numFiles, label) {
-				
-				  var input = (jQuery)(this).parents('.input-group').find(':text'),
-					  log = numFiles > 1 ? numFiles + ' files selected' : label;
-				
-				  if( input.length ) {
-					  input.val(log);
-				  } else {
-					  if( log ) alert(log);
-				  }
-				
-			  });
-		  });		
-	  </script>		
+		function showDivPdf() {console.log('showpdf');
+			(jQuery)('#divPdf').show();
+			(jQuery)('#divEmail').hide();
+		}
+		function showDivEmail() { console.log('showmail');
+			(jQuery)('#divPdf').hide();
+			(jQuery)('#divEmail').show();
+		}
+		</script>		
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

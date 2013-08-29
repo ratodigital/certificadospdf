@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="page-header">
-      <h1>$title<!--<small>subtitle</small>--></h1>
+      <h1>$title <a href="/" class="btn-lg" data-toggle="tooltip" title="Página inicial"><span class="glyphicon glyphicon-home"></span></a></h1>
     </div>        
 	  <div class="row">
 	    <div class="col-md-2">  
@@ -38,7 +38,7 @@
           image = "email"
         }
         %>	    
-  	    <img src="/images/${image}.png" width="128px" height="128px" alt="PDF">    
+  	    <p class="text-center"><img src="/images/${image}.png" width="128px" height="128px" alt="PDF"></p>
 	    </div>	  
 	    
 	    <div class="col-md-10">
@@ -127,12 +127,16 @@ certificadospdf.appspot.com
             if (request.status == 'GETMSGDATA') {
             %>
             <div class="pull-left">
-              <button class="btn btn-primary btn-lg" onclick="submitPreview();"><span class="glyphicon glyphicon-eye-open"></span> Preview</button>
+					    <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Veja uma prévia de como ficará o PDF" data-original-title="Veja uma prévia de como ficará o PDF" onclick="submitPreview();"><span class="glyphicon glyphicon-eye-open"></span> Preview</button>
               <script type="text/javascript">
                 function submitPreview() {
                   document.getElementById('status').value = "PREVIEW";
                   document.pdfForm.submit();
                 }
+                function submitForm() {
+                  document.getElementById('status').value = "SEND_EMAILS";
+                  document.pdfForm.submit();
+                }								
               </script>  
             </div>
             <%
@@ -140,7 +144,7 @@ certificadospdf.appspot.com
             }
             %>
             <div class="pull-right">
-              <button class="btn btn-primary btn-lg" onclick="document.pdfForm.submit();">$submitButton</span></button>
+              <button class="btn btn-primary btn-lg" onclick="submitForm();">$submitButton</span></button>
             </div>
           </div>
         </form>	                             

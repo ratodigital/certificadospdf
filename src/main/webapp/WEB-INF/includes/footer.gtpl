@@ -14,14 +14,72 @@
     <script src="/js/bootstrap.min.js"></script>
 		<script>
 		
-		function showDivPdf() {console.log('showpdf');
-			(jQuery)('#divPdf').show();
-			(jQuery)('#divEmail').hide();
+		function showDivPdf() {
+			toogle('divPdf');
+      hide('divCsv');      
+      hide('divEmail');
+      toogleOff('btnCsv');
+      toogleOff('btnEmail');
+      window.location = '#divPdf';
 		}
-		function showDivEmail() { console.log('showmail');
-			(jQuery)('#divPdf').hide();
-			(jQuery)('#divEmail').show();
+		
+		function showDivCsv() {
+      hide('divPdf');
+			toogle('divCsv');
+      hide('divEmail');      			
+      toogleOff('btnPdf');
+      toogleOff('btnEmail');
+      window.location = '#divCsv';      
 		}
+
+		function showDivEmail() { 
+      hide('divPdf');
+      hide('divCsv');      
+			toogle('divEmail');
+      toogleOff('btnPdf');
+      toogleOff('btnCsv');
+      window.location = '#divEmail';
+		}
+
+		function show(divId) {
+  		(jQuery)('#'+divId).show();
+		}
+				
+		function hide(divId) {
+  		(jQuery)('#'+divId).hide();
+		}
+		
+		function toogleOff(btn) {
+//		  (jQuery)('#'+btn).button('reset');
+      (jQuery)('#'+btn).removeClass('active');
+    }
+    
+		function toogle(divId, showOrHide) {
+      if (((jQuery)('#'+divId).css("display") == 'none')) {
+        show(divId);
+      } else {
+        hide(divId);
+      }
+		}
+		
+    function scrollToDiv(element,navheight){
+      var offset = element.offset();
+      var offsetTop = offset.top;
+      var totalScroll = offsetTop-navheight;
+      (jQuery)('body,html').animate({
+        scrollTop: totalScroll
+      }, 500);
+    }		
+    
+    function submitPreview() {
+      document.getElementById('status').value = "PREVIEW";
+      document.pdfForm.submit();
+    }
+    
+    function submitForm() {
+      document.getElementById('status').value = "SEND_EMAILS";
+      document.pdfForm.submit();
+    }					    
 		</script>		
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

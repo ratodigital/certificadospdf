@@ -7,21 +7,22 @@
 	    <p class="text-center">A maneira mais fácil e rápida de enviar certificados de participação em cursos e eventos por e-mail. Com apenas 3 passos todos os participantes recebem um email padrão com o certificado anexado em formato PDF.</p>
 	  </div>
   </div>
+  
 	<div class="container">
 	  <div class="row">
       <div class="progress">
         <%
         def percent = 33
         def title = "Template PDF (1/3)"
-				def info = "/pdf"
+				def info = "Pdf"
         if (request.status == 'GETCSV') {
           percent = 66
           title = "Dados CSV (2/3)"
-					info = "/csv"
+					info = "Csv"
         } else if (request.status == 'GETMSGDATA') {
           title = "Enviar Email (3/3)"
           percent = 100
-					info = "/email"
+					info = "Email"
         }
         %>
         <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100" style="width: ${percent}%">
@@ -33,7 +34,7 @@
 				<h1>$title</h1>
 			</div>
 			<div class="pull-right">
-				<h1><a href="$info" data-toggle="tooltip" title="Saiba mais"><span class="glyphicon glyphicon-info-sign"></span> <a href="/" data-toggle="tooltip" title="Página inicial"><span class="glyphicon glyphicon-home"></span></a><h1>
+				<h1><a href="#" data-toggle="tooltip" title="Saiba mais" onclick="showDiv${info}()"><span class="glyphicon glyphicon-info-sign"></span></a> <a href="/" data-toggle="tooltip" title="Página inicial"><span class="glyphicon glyphicon-home"></span></a><h1>
 			</div>
 		</div>
    <hr>
@@ -75,7 +76,7 @@
   			  <div class="form-group input-lg">
     			  <label for="file" class="col-lg-2 control-label">PDF</label>
 					  <span class="input-group-btn">
-              <input type="file" name="pdfFile" required/><br/>
+              <input type="file" class="input-lg" name="pdfFile" required/><br/>
 					  </span>
 				  </div>   
 				  <%  
@@ -85,7 +86,7 @@
   			  <div class="form-group input-lg">
     			  <label for="file" class="col-lg-2 control-label">CSV</label>
 					  <span class="input-group-btn">
-              <input type="file" name="csvFile" required/><br/>
+              <input type="file" class="input-lg" name="csvFile" required/><br/>
 					  </span>
 				  </div>              
           <%
@@ -94,31 +95,31 @@
           <input type="hidden" id="status" name="status" value="SENDPDF"/>  
           <input name="csvKey" type="hidden" value="$request.csvKey"/>          
           
-          <div class="form-group">
+          <div class="form-group input-lg">
             <label for="fromEmail" class="col-lg-2 control-label">Email do rementente</label>
             <div class="col-lg-10">
-              <input type="email" class="form-control" id="fromEmail" placeholder="Email" value="certificadospdf@gmail.com" disabled>
+              <input type="email" class="form-control input-lg" id="fromEmail" placeholder="Email" value="certificadospdf@gmail.com" disabled>
             </div>
           </div>
           
-          <div class="form-group">
+          <div class="form-group input-lg">
             <label for="fromName" class="col-lg-2 control-label">Nome do rementente</label>
             <div class="col-lg-10">
-              <input type="text" class="form-control" id="fromName" value="Certificados PDF" required>
+              <input type="text" class="form-control input-lg" id="fromName" value="Certificados PDF" required>
             </div>
           </div>    
           
-          <div class="form-group">
+          <div class="form-group input-lg">
             <label for="subject" class="col-lg-2 control-label">Assunto</label>
             <div class="col-lg-10">
-              <input type="text" class="form-control" id="subject" value="Seu certificado está pronto!" required>
+              <input type="text" class="form-control input-lg" id="subject" value="Seu certificado está pronto!" required>
             </div>
           </div>    
           
-          <div class="form-group">
+          <div class="form-group input-lg">
             <label for="message" class="col-lg-2 control-label">Mensagem *</label>
             <div class="col-lg-10">
-                <textarea name="message" class="form-control" rows="7" required>
+                <textarea name="message" class="form-control input-lg" rows="7" required>
 Olá,
 
 Seu certificado de participação segue em anexo.
@@ -132,8 +133,7 @@ certificadospdf.appspot.com
           </div>              
 
           <div class="form-group">
-            <label for="message" class="col-lg-2 control-label"></label>
-            <div class="col-lg-10">
+            <div class="col-lg-10 col-lg-offset-2">
                 * Você pode utilizar os campos <b>$request.pdfFields</b>
             </div>
           </div>    
@@ -147,16 +147,6 @@ certificadospdf.appspot.com
             %>
             <div class="pull-left">
 					    <button class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Veja uma prévia de como ficará o PDF" data-original-title="Veja uma prévia de como ficará o PDF" onclick="submitPreview();"><span class="glyphicon glyphicon-eye-open"></span> Preview</button>
-              <script type="text/javascript">
-                function submitPreview() {
-                  document.getElementById('status').value = "PREVIEW";
-                  document.pdfForm.submit();
-                }
-                function submitForm() {
-                  document.getElementById('status').value = "SEND_EMAILS";
-                  document.pdfForm.submit();
-                }								
-              </script>  
             </div>
             <%
               submitButton = "Enviar certificados <span class=\"glyphicon glyphicon-ok\">"            
@@ -167,9 +157,16 @@ certificadospdf.appspot.com
             </div>
           </div>
         </form>	                             
+      </div> <!-- col-md-10 -->
+    </div> <!-- row -->
 
-      </div>
+    <div class="container">
+      <% include '/WEB-INF/includes/divPdf.gtpl' %>	
+      <% include '/WEB-INF/includes/divEmail.gtpl' %>     
+      <% include '/WEB-INF/includes/divCsv.gtpl' %>		      
     </div>
-  </div>
+    
+  </div> <!-- container -->
+  
 <% include '/WEB-INF/includes/footer.gtpl' %>
 

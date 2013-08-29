@@ -1,3 +1,9 @@
-nome_participante,nome_curso,email
-SERGE,JAVA,serge.rehem@gmail.com
-REHEM,GROOVY,serge.rehem@normandotransportes.com.br
+nome,curso,carga_horaria,email
+AMELIA MARIA,CULINARIA,8H,amelia@mail.net
+LORD BYRON,PORTUGUÊS,60H,byron@lord.com
+BONO VOX,12H,bono@vox.u2.com
+JAMES GOSLING,GROOVY,48H,gosling@java.com
+
+
+
+

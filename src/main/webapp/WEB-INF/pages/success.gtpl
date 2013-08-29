@@ -17,7 +17,7 @@
          %>
 			   <div class="alert $alertType">$request.message</div>
 			   
-			   <p class="text-center"><a href="/" type="button" class="btn btn-primary btn-lg">Página Inicial</a></p>
+			   <p class="text-center"><a href="/" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span> Página Inicial</a></p>
 			</div>
 	</div>
 	

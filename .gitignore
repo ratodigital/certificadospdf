@@ -1,3 +1,5 @@
+appengine-generated
+classes
 build
 out
 *.iml

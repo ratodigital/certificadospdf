@@ -1,9 +1,3 @@
-nome,curso,carga_horaria,email
-AMELIA MARIA,CULINARIA,8H,amelia@mail.net
-LORD BYRON,PORTUGUÊS,60H,byron@lord.com
-BONO VOX,12H,bono@vox.u2.com
-JAMES GOSLING,GROOVY,48H,gosling@java.com
-
-
-
-
+nome_participante,nome_curso,carga_horaria,email
+AMELIA MARIA,CULINARIA,8H,serge.rehem@gmail.com
+LORD BYRON,PORTUGUÊS,60H,serge.rehem@serpro.gov.br

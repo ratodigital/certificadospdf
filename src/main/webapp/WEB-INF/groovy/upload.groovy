@@ -3,8 +3,13 @@ import util.*
 import com.google.appengine.api.blobstore.BlobKey 
 import com.google.appengine.api.blobstore.BlobInfo
 import com.google.appengine.api.files.FileReadChannel
-//import java.nio.channels.Channels
 
+def FROM_EMAIL = "certificadospdf@gmail.com"
+
+def flush = ""
+def flushError = ""
+
+//import java.nio.channels.Channels
 if (!params.status) {
   request.status = "GETPDF"
   forward "/WEB-INF/pages/upload.gtpl"
@@ -49,7 +54,7 @@ if (!params.status) {
     default:
       def csvFile = new BlobKey(params.csvKey)          
       def csvData = getCSVData(csvFile)
-      if (csvData.size <= 101) {
+      if (csvData.size() <= 101) {
         def pdfFile = new BlobKey(params.pdfKey) 
 
         for (data in csvData) {
@@ -57,35 +62,63 @@ if (!params.status) {
           def pdfStamper = gerarPDF(pdfFile, data, outputPdfName)
           def outputPdfBytes = getBytes(pdfStamper) 
 
-          //println "Enviando arquivo '$outputPdfName' para email '${data['email']}'<br/>"	    
+          //println "$params.subject Enviando arquivo '$outputPdfName' para email '${data['email']}'<br/>"	    
 
-          def subject = params.subject //evalScript(messageVars, params.subject)
-          def message = evalScript(getMessageVars(pdfFile, data), params.message)
+          def vars = getMessageVars(pdfFile, data)
+          
+          try {
+            def subject = evalScript(vars, params.subject)
+            def message = evalScript(vars, params.message)
 
-          Mail.send(params.fromEmail, params.fromName,data['email'],data['email'], subject, message, outputPdfName,outputPdfBytes)
-          //println "$params.fromEmail $params.fromName $data['email'] $data['email'] $params.subject $message $outputPdfName"
+            //println "MAIL SENT: $FROM_EMAIL $params.fromName ${data['email']} ${data['email']} $subject $message $outputPdfName<br><br>"
+            
+            Mail.send(FROM_EMAIL, params.fromName, 
+                      data['email'], data['email'], 
+                      subject, message, 
+                      outputPdfName, outputPdfBytes)
+                      
+            flush = "$csvData.size certificados enviados por email com sucesso!"
+          } catch (groovy.lang.MissingPropertyException e) {
+            def m = e.getMessage()
+            def campo = m.substring(18,m.indexOf(" for"))
+            flushError = 'O campo \$' + campo + ' não existe no Template PDF.'
+          }
           pdfStamper.delete()
         }
         pdfFile.delete()
         csvFile.delete()
-        status = "OK"
-        message = "$csvData.size certificados enviados por email com sucesso!"
       } else {
         status = "ERRO"
-        message = "Na versão Beta não é possível enviar mais de 100 certificados. Caso deseje ampliar o limite, entre em contato com serge.rehem at gmail.com"
+        flushError = "Na versão Beta não é possível enviar mais de 100 certificados."
       }
-
-      request.status = status      
-      request.message = message
-            
-      forward "/WEB-INF/pages/success.gtpl"      
+ 
+      request.flush = flush
+      request.flushError = flushError
+      if (flushError == "") {
+        forward "/WEB-INF/pages/success.gtpl"      
+      } else {
+        request.status = "GETMSGDATA"
+        request.pdfKey = params.pdfKey
+        request.pdfName = params.pdfName
+        request.pdfFields = params.pdfFields        
+        request.fromName = params.fromName
+        request.subject = params.subject
+        request.message = params.message
+        forward "/WEB-INF/pages/upload.gtpl"      
+      }
   }
 }
 
-def evalScript(vars, script) {
-  Object evalScript = "${vars}return '''${script.trim()}'''"
-  GroovyShell shell = new GroovyShell() 
-  shell.evaluate(evalScript)
+String evalScript(Map vars, String script) {
+  def binding = new Binding()
+  vars.entrySet().each { var ->
+    binding.setVariable(var.key, var.value);
+  }
+  def shell = new GroovyShell(binding) 
+    def groovyScript = """
+${script.trim()}
+"""
+  shell.evaluate("return \"\"\"$groovyScript\"\"\"")
 }
 
 def gerarPDF(pdfFile, data, outputPdfName) {
@@ -108,7 +141,20 @@ def gerarPDF(pdfFile, data, outputPdfName) {
   pdfStamper
 }
 
-def getMessageVars(pdfFile, data) {
+Map getMessageVars(pdfFile, data) {
+  Map messageVars = [:]
+  pdfFile.withStream { inputStream -> 
+  	def pdf = new PDF()
+    pdf.open(inputStream)   
+    pdf.listFormFields().each { fieldName ->
+      messageVars[fieldName] = data[fieldName]
+    }
+    pdf.closePdf()
+  }
+  messageVars
+}
+
+def getMessageVarsOLD(pdfFile, data) {
   String messageVars = ""
   pdfFile.withStream { inputStream -> 
   	def pdf = new PDF()
@@ -135,14 +181,16 @@ def getCSVData(csvFile) {
     def fieldNames = []
     def f = 1 
     csvInputStream.splitEachLine(",") { fields ->
-      if (f++==1) {
-        fieldNames = fields      
-      } else {
-        def fieldsMap = [:]
-        fieldNames.eachWithIndex { key, index ->
-          fieldsMap[key] = fields[index]
+      if (fields.size() > 1) {
+        if (f++==1) {
+          fieldNames = fields      
+        } else {
+          def fieldsMap = [:]
+          fieldNames.eachWithIndex { key, index ->
+            fieldsMap[key] = fields[index]
+          }
+          csvData << fieldsMap
         }
-        csvData << fieldsMap
       }
     }
   }

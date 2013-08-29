@@ -37,8 +37,15 @@
 				<h1><a href="#" data-toggle="tooltip" title="Saiba mais" onclick="showDiv${info}()"><span class="glyphicon glyphicon-info-sign"></span></a> <a href="/" data-toggle="tooltip" title="Página inicial"><span class="glyphicon glyphicon-home"></span></a><h1>
 			</div>
 		</div>
-   <hr>
+    <hr>
 	  <div class="row">
+      <% if (request.flush != null && request.flushError != "") {%>
+			<div class="col-md-12">
+        <div class="alert alert-danger alert-dismissable">
+          <a href="#" class="alert-link">$request.flushError</a>
+        </div>
+			</div>      
+      <% } %>	  
 	    <div class="col-md-2">  
         <%
         def image = "pdf"
@@ -98,29 +105,28 @@
           <div class="form-group input-lg">
             <label for="fromEmail" class="col-lg-2 control-label">Email do rementente</label>
             <div class="col-lg-10">
-              <input type="email" class="form-control input-lg" id="fromEmail" placeholder="Email" value="certificadospdf@gmail.com" disabled>
+              <input type="email" class="form-control input-lg" name="fromEmail" id="fromEmail" placeholder="Email" value="certificadospdf@gmail.com" disabled>
             </div>
           </div>
           
           <div class="form-group input-lg">
             <label for="fromName" class="col-lg-2 control-label">Nome do rementente</label>
             <div class="col-lg-10">
-              <input type="text" class="form-control input-lg" id="fromName" value="Certificados PDF" required>
+              <input type="text" class="form-control input-lg" name="fromName" id="fromName" value="${params.fromName ?: 'Certificados PDF'}" required>
             </div>
           </div>    
           
           <div class="form-group input-lg">
-            <label for="subject" class="col-lg-2 control-label">Assunto</label>
+            <label for="subject" class="col-lg-2 control-label">Assunto *</label>
             <div class="col-lg-10">
-              <input type="text" class="form-control input-lg" id="subject" value="Seu certificado está pronto!" required>
+              <input type="text" class="form-control input-lg" name="subject" id="subject" value="${params.subject ?: 'Seu certificado está pronto!'}" required>
             </div>
           </div>    
           
           <div class="form-group input-lg">
             <label for="message" class="col-lg-2 control-label">Mensagem *</label>
             <div class="col-lg-10">
-                <textarea name="message" class="form-control input-lg" rows="7" required>
-Olá,
+                <textarea id="message" name="message" class="form-control input-lg" rows="7" required><%if (!params.message) {%>Olá,
 
 Seu certificado de participação segue em anexo.
 
@@ -128,6 +134,9 @@ Atenciosamente
 ---
 Certificados PDF
 certificadospdf.appspot.com
+<%} else {%>
+$params.message
+<%}%>
                 </textarea>
             </div>
           </div>              

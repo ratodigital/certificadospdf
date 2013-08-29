@@ -44,7 +44,6 @@ class PDF {
     AcroFields form = pdfStamper.getAcroFields()
     try {
 			form.setField(field, newValue)
-			println "mudei valor de $field para $newValue"
 		} catch (Exception e) {
 			e.printStackTrace()
 		}        

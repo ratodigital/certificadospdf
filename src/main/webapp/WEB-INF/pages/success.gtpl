@@ -13,9 +13,9 @@
 		<div class="row">
 			<div class="col-lg-12">
          <%
-          def alertType = (request.status=='OK') ? 'alert-success' : 'alert-error'
+          def alertType = (request.flush!="") ? 'alert-success' : 'alert-danger'
          %>
-			   <div class="alert $alertType">$request.message</div>
+			   <div class="alert $alertType input-lg">$request.flush</div>
 			   
 			   <p class="text-center"><a href="/" type="button" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span> Página Inicial</a></p>
 			</div>

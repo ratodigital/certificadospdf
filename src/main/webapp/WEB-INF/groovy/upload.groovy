@@ -23,11 +23,22 @@ if (!params.status) {
       request.pdfKey = pdfFile.keyString
       request.pdfName = pdfFile.filename    
       pdfFile.withStream { inputStream -> 
+<<<<<<< HEAD
         def pdf = new PDF()
         pdf.open(inputStream) 
         if (pdf.listFormFields().size() > 0) {
           request.pdfFields = "\$" + pdf.listFormFields().inject() { s,e -> s += ", \$$e" }
         }
+=======
+				try {
+					def pdf = new PDF()
+					pdf.open(inputStream) 
+					request.pdfFields = "\$" + pdf.listFormFields().inject() { s,e -> s += ", \$$e" }
+				} catch (com.itextpdf.text.exceptions.InvalidPdfException e) {
+					request.status = "GETPDF"
+					request.flushError = 'Selecione  um arquivo PDF válido.'
+				}
+>>>>>>> a5e3631d18f4ba2ddf6241904366657855f0f005
       }
       forward "/WEB-INF/pages/upload.gtpl"
       break
@@ -56,8 +67,9 @@ if (!params.status) {
     default:
       def csvFile = new BlobKey(params.csvKey)          
       def csvData = getCSVData(csvFile)
+			def pdfFile
       if (csvData.size() <= 101) {
-        def pdfFile = new BlobKey(params.pdfKey) 
+        pdfFile = new BlobKey(params.pdfKey) 
 
         for (data in csvData) {
           def outputPdfName = "${data['email']}_${pdfFile.filename}"
@@ -79,16 +91,14 @@ if (!params.status) {
                       subject, message, 
                       outputPdfName, outputPdfBytes)
                       
-            flush = "$csvData.size certificados enviados por email com sucesso!"
           } catch (groovy.lang.MissingPropertyException e) {
             def m = e.getMessage()
             def campo = m.substring(18,m.indexOf(" for"))
             flushError = 'O campo \$' + campo + ' não existe no Template PDF.'
           }
+					flush = "${csvData.size()} certificados enviados por email com sucesso!"
           pdfStamper.delete()
         }
-        pdfFile.delete()
-        csvFile.delete()
       } else {
         status = "ERRO"
         flushError = "Na versão Beta não é possível enviar mais de 100 certificados."
@@ -97,6 +107,8 @@ if (!params.status) {
       request.flush = flush
       request.flushError = flushError
       if (flushError == "") {
+        pdfFile.delete()
+        csvFile.delete()			
         forward "/WEB-INF/pages/success.gtpl"      
       } else {
         request.status = "GETMSGDATA"
@@ -104,6 +116,7 @@ if (!params.status) {
         request.pdfName = params.pdfName
         request.pdfFields = params.pdfFields        
         request.fromName = params.fromName
+				request.csvKey = params.csvKey
         request.subject = params.subject
         request.message = params.message
         forward "/WEB-INF/pages/upload.gtpl"      

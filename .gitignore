@@ -1,6 +1,7 @@
 appengine-generated
 classes
 build
+WEB-INF/lib
 out
 *.iml
 *.ipr

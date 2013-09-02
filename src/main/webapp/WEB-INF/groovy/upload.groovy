@@ -23,23 +23,17 @@ if (!params.status) {
       request.pdfKey = pdfFile.keyString
       request.pdfName = pdfFile.filename    
       pdfFile.withStream { inputStream -> 
-<<<<<<< HEAD
-        def pdf = new PDF()
-        pdf.open(inputStream) 
-        if (pdf.listFormFields().size() > 0) {
-          request.pdfFields = "\$" + pdf.listFormFields().inject() { s,e -> s += ", \$$e" }
-        }
-=======
-				try {
-					def pdf = new PDF()
-					pdf.open(inputStream) 
-					request.pdfFields = "\$" + pdf.listFormFields().inject() { s,e -> s += ", \$$e" }
-				} catch (com.itextpdf.text.exceptions.InvalidPdfException e) {
-					request.status = "GETPDF"
-					request.flushError = 'Selecione  um arquivo PDF válido.'
-				}
->>>>>>> a5e3631d18f4ba2ddf6241904366657855f0f005
-      }
+			  try {
+				  def pdf = new PDF()
+				  pdf.open(inputStream) 
+          if (pdf.listFormFields().size() > 0) {
+            request.pdfFields = "\$" + pdf.listFormFields().inject() { s,e -> s += ", \$$e" }
+          }
+			  } catch (com.itextpdf.text.exceptions.InvalidPdfException e) {
+				  request.status = "GETPDF"
+				  request.flushError = 'Selecione  um arquivo PDF válido.'
+			  }
+			}
       forward "/WEB-INF/pages/upload.gtpl"
       break
     case "GETMSGDATA":

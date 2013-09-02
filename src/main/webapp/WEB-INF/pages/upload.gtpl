@@ -143,7 +143,11 @@ $params.message
 
           <div class="form-group">
             <div class="col-lg-10 col-lg-offset-2">
+              <%if (request.pdfFields != "null" && request.pdfFields != null) {%> 
                 * Você pode utilizar os campos <b>$request.pdfFields</b>
+              <%} else {%>                 
+                * O template PDF não possui nenhum campo que possa ser utilizado.
+              <%}%>
             </div>
           </div>    
 

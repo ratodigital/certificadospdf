@@ -25,7 +25,9 @@ if (!params.status) {
       pdfFile.withStream { inputStream -> 
         def pdf = new PDF()
         pdf.open(inputStream) 
-        request.pdfFields = "\$" + pdf.listFormFields().inject() { s,e -> s += ", \$$e" }
+        if (pdf.listFormFields().size() > 0) {
+          request.pdfFields = "\$" + pdf.listFormFields().inject() { s,e -> s += ", \$$e" }
+        }
       }
       forward "/WEB-INF/pages/upload.gtpl"
       break

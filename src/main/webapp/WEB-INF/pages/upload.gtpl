@@ -39,7 +39,7 @@
 		</div>
     <hr>
 	  <div class="row">
-      <% if (request.flushError != null && request.flushError != "") {%>
+      <% if (request.flush != null && request.flushError != "") {%>
 			<div class="col-md-12">
         <div class="alert alert-danger alert-dismissable">
           <a href="#" class="alert-link">$request.flushError</a>
@@ -103,7 +103,7 @@
           <input name="csvKey" type="hidden" value="$request.csvKey"/>          
           
           <div class="form-group input-lg">
-            <label for="fromEmail" class="col-lg-2 control-label">Email do reme	tente</label>
+            <label for="fromEmail" class="col-lg-2 control-label">Email do rementente</label>
             <div class="col-lg-10">
               <input type="email" class="form-control input-lg" name="fromEmail" id="fromEmail" placeholder="Email" value="certificadospdf@gmail.com" disabled>
             </div>

@@ -18,7 +18,7 @@ public class Mail {
             msg.setFrom(new InternetAddress(fromAddr, fromName));
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(toAddr, toName))
             msg.setSubject(subject);
-						msg.setReplyTo(InternetAddress.parse(replyTo));
+						msg.setReplyTo(new Address[]{new InternetAddress(replyTo)});
             //msg.setText(msgBody);
             
 						// Create the message part 

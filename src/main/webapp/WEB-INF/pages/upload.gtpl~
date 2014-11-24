@@ -110,7 +110,7 @@
           </div>
 
           <div class="form-group input-lg">
-            <label for="fromName" class="col-lg-2 control-label">Nome do remetente</label>
+            <label for="fromName" class="col-lg-2 control-label">Nome do rementente</label>
             <div class="col-lg-10">
               <input type="text" class="form-control input-lg" name="fromName" id="fromName" value="${params.fromName ?: 'Certificados PDF'}" required>
             </div>

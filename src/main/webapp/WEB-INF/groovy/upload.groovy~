@@ -94,7 +94,6 @@ if (!params.status) {
 					e.name = params.fromName
           e.email = params.replyTo
 					e.total = csvData.size()
-          e.save()
 
 					flush = "${csvData.size()} certificados enviados por email com sucesso!"
           pdfStamper.delete()

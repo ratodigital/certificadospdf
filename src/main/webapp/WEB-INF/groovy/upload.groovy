@@ -2,6 +2,7 @@ import util.*
 import com.google.appengine.api.datastore.Entity
 import com.google.appengine.api.blobstore.BlobKey 
 import com.google.appengine.api.blobstore.BlobInfo
+import com.google.appengine.api.blobstore.BlobstoreService
 import com.google.appengine.api.files.FileReadChannel
 
 def FROM_EMAIL = "certificadospdf@gmail.com"
@@ -183,7 +184,28 @@ def getMessageVarsOLD(pdfFile, data) {
 }
 
 def getBytes(file) {
-  blobstore.fetchData(file.blobKey, 0, getSize(file)	- 1) 
+  //blobstore.fetchData(file.blobKey, 0, getSize(file)	- 1) 
+  if (getSize(file) > Integer.MAX_VALUE )
+    throw new RuntimeException("This method can only process blobs up to " + Integer.MAX_VALUE + " bytes");
+
+  int blobSize = (int)getSize(file)
+  int chunks = (int)Math.ceil(((double)blobSize / blobstore.MAX_BLOB_FETCH_SIZE))
+  int totalBytesRead = 0
+  int startPointer = 0
+  int endPointer
+  byte[] blobBytes = new byte[blobSize]
+
+  for( int i = 0; i < chunks; i++ ) {
+	endPointer = Math.min(blobSize - 1, startPointer + blobstore.MAX_BLOB_FETCH_SIZE - 1)
+	byte[] bytes = blobstore.fetchData(file.blobKey, startPointer, endPointer)
+	for( int j = 0; j < bytes.length; j++ ) {
+      blobBytes[j + totalBytesRead] = bytes[j]
+    }
+	startPointer = endPointer + 1
+	totalBytesRead += bytes.length
+  }
+
+  return blobBytes
 }
 
 def getSize(file) {

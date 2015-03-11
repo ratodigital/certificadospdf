@@ -12,3 +12,6 @@ get "/success", forward: "/WEB-INF/pages/success.gtpl"
 get "/failure", forward: "/WEB-INF/pages/failure.gtpl"
 
 
+
+get "/emails", forward: "/emails.groovy"
+

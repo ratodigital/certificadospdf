@@ -5,10 +5,11 @@ def list = datastore.execute {
 
 map = [:]
 list.each { l -> 
-	if (map[l.email]) { 	
-		map.put(l.email,map[l.email]+1)	
+	def emailNome = l.email+","+l.name
+	if (map[emailNome]) { 	
+		map.put(l.email,map[emailNome]+1)	
 	} else {
-		map[l.email] = 1
+		map[emailNome] = 1
 	}
 }
 

@@ -149,9 +149,9 @@ def gerarPDF(pdfFile, data, outputPdfName) {
       pdf.preparePdfStamper(outputStream)
       pdf.listFormFields().each { fieldName ->
         pdf.changeFieldValue(fieldName, data[fieldName])
-        byte[] array = data[fieldName].getBytes("ISO-8859-1")
-		String novaString = new String(array, "ISO-8859-1")
-		pdf.changeFieldValue(fieldName, novaString)
+        //byte[] array = data[fieldName].getBytes("ISO-8859-1")
+		//String novaString = new String(array, "ISO-8859-1")
+		//pdf.changeFieldValue(fieldName, novaString)
 		messageVars += "$fieldName = \"${data[fieldName]}\";"
       }
       pdf.closeAll()

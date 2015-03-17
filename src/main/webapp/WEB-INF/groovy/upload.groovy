@@ -149,9 +149,6 @@ def gerarPDF(pdfFile, data, outputPdfName) {
       pdf.preparePdfStamper(outputStream)
       pdf.listFormFields().each { fieldName ->
         pdf.changeFieldValue(fieldName, data[fieldName])
-        //byte[] array = data[fieldName].getBytes("ISO-8859-1")
-		//String novaString = new String(array, "ISO-8859-1")
-		//pdf.changeFieldValue(fieldName, novaString)
 		messageVars += "$fieldName = \"${data[fieldName]}\";"
       }
       pdf.closeAll()
@@ -217,7 +214,7 @@ def getSize(file) {
 
 def getCSVData(csvFile) {
   def csvData = []
-  csvFile.withStream { csvInputStream ->
+  csvFile.withReader("utf-8") { csvInputStream ->
     def fieldNames = []
     def f = 1 
     csvInputStream.splitEachLine(",") { fields ->
